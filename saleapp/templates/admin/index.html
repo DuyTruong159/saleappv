@@ -1,5 +1,9 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-    {{ include 'admin/contact.html' }}
+    {% if current_user.is_authenticated %}
+        <h1 class="text-center text-danger">Chào mừng</h1>
+    {% else %}
+        {% include 'admin/login.html' %}
+    {% endif %}
 {% endblock %}

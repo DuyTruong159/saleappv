@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from saleapp import db
 from datetime import datetime
 from enum import Enum as UserEnum
+from flask_login import UserMixin
 
 class SaleBass(db.Model):
     __abstract__ = True
@@ -16,7 +17,7 @@ class SaleBass(db.Model):
 class Category(SaleBass):
     __tablename__ = 'category'
 
-    products = relationship('product', backref = 'category', lazy = True)
+    products = relationship('Product', backref = 'category', lazy = True)
 
 class Product(SaleBass):
     __tablename__ = 'product'
@@ -30,7 +31,7 @@ class UserRole(UserEnum):
     USER = 1
     ADMIN = 2
 
-class User(SaleBass):
+class User(SaleBass, UserMixin):
     __tablename__ = 'user'
 
     email = Column(String(50))

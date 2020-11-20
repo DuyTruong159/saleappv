@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="styleshee"/>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center text-danger">Đăng ký</h1>
+        {% if err_msg %}
+        <div class="alert alert-warning">
+            <h2>{{ err_msg }}</h2>
+        </div>
+        {% endif %}
+        <form method="post", action="url_for{{ 'register' }}", enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Tên</label>
+                <input name="name", type="text", id="name", class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input name="email", type="email", id="email", class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input name="username", type="text", id="username", class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input name="password", type="password", id="password", class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="confirm">Confirm</label>
+                <input name="confirm", type="password", id="confirm", class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="avatar">Avatar</label>
+                <input name="avatar", type="image", id="avatar", class="form-control"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Đăng ký" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>

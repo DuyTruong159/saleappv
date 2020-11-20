@@ -10,12 +10,12 @@
  "name": "iPad Pro 2020",
  "description": "Apple, 128GB, RAM: 6GB",
  "price": 37000000,
- "image": "images/ipad-pro-11.png",
+ "image": "images/ipad-pro-11.jpg",
  "category_id": 2
 }, {
  "id": 3,
  "name": "Galaxy Note 10 Plus",
- "description": "Samsung, 64GB, RAML: 6GB",
+ "description": "Samsung, 64GB, RAM: 6GB",
  "price": 24000000,
  "image": "images/note_10_plus.jpg",
  "category_id": 1

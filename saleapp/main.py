@@ -12,7 +12,12 @@ def index():
 
 @app.route("/products")
 def product_list():
-    product = util.read_data(path='data/products.json')
+    cat_id = request.args.get("cat_id")
+    kw = request.args.get("kw")
+    from_price = request.args.get("from_price")
+    to_price = request.args.get("to_price")
+
+    product = util.read_product(cat_id=cat_id, kw=kw, from_price=from_price, to_price=to_price)
     return render_template('products.html', products = product)
 
 @app.route("/products/<int:product_id>")

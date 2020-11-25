@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request
+from flask import render_template, request
 from saleapp import app, util, login
 from saleapp.models import *
 from flask_login import login_user
@@ -54,12 +54,13 @@ def register():
 
         if password == confirm:
             if util.add_user(name=name, email=email, username=username, password=password):
-                return redirect('/admin')
+                return redirect("/admin")
 
         else:
             err_msg = 'Mật khẩu không đúng'
 
     return render_template('register.html', err_msg=err_msg)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

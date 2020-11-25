@@ -1,9 +1,8 @@
-from flask import render_template
+from flask import render_template, redirect, request
 from saleapp import app, util, login
 from saleapp.models import *
-from flask import redirect, request
 from flask_login import login_user
-import hashlib, os
+import hashlib
 
 @app.route("/")
 def index():
@@ -54,11 +53,7 @@ def register():
         confirm = request.form.get('confirm', '')
 
         if password == confirm:
-            avatar = request.files['avatar']
-            avatar_path = 'images/uploads/&s' % avatar.filename
-            avatar.save(os.path.join(app.config['ROOT_PROJECT_PATH'], 'static/', avatar_path ))
-
-            if util.add_user(name=name, email=email, username=username, password=password, avatar=avatar_path):
+            if util.add_user(name=name, email=email, username=username, password=password):
                 return redirect('/admin')
 
         else:

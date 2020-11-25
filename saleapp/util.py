@@ -27,13 +27,12 @@ def get_product_by_id(product_id):
         if p["id"] == product_id:
             return p
 
-def add_user(name, email, username, password, avatar):
+def add_user(name, email, username, password):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     u = User(name=name,
              email=email,
              username=username,
-             password=password,
-             avatar=avatar)
+             passwork=password)
 
     db.session.add(u)
     db.session.commit()

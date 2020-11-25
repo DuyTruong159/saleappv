@@ -1,9 +1,12 @@
 from sqlalchemy import Column, Integer, Float, String, ForeignKey, Boolean,Date, Enum
 from sqlalchemy.orm import relationship
-from saleapp import db
+from saleapp import db, admin
 from datetime import datetime
 from enum import Enum as UserEnum
-from flask_login import UserMixin
+from flask import redirect
+from flask_login import UserMixin, current_user, logout_user
+from flask_admin import BaseView, expose
+from flask_admin.contrib.sqla import ModelView
 
 class SaleBass(db.Model):
     __abstract__ = True
@@ -37,10 +40,43 @@ class User(SaleBass, UserMixin):
     email = Column(String(50))
     username = Column(String(100), nullable=False)
     passwork = Column(String(100), nullable=False)
-    avarter = Column(String(100))
     acitive = Column(Boolean, default=True)
     joined_date = Column(Date, default=datetime.now())
     user_role = Column(Enum(UserRole, default=UserRole.USER))
+
+
+class ContactView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('admin/contact.html')
+
+class LogoutView(BaseView):
+    @expose('/')
+    def index(self):
+        logout_user()
+        return redirect('/admin')
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+class RegisterView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('/register.html')
+
+class CategoryModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+class ProductModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+admin.add_view(CategoryModelView(Category, db.session))
+admin.add_view(ProductModelView(Product, db.session))
+admin.add_view(ContactView(name='Liên hệ'))
+admin.add_view(LogoutView(name="Logout"))
+admin.add_view(RegisterView(name='Đăng ký'))
 
 if __name__ == '__main__':
     db.create_all()

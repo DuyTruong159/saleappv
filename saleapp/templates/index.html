@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Trang chủ</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-</head>
-<body>
+{% extends 'base/base.html' %}
+
+{% block body %}
     <h1 class = "text-center">BÁN HÀNG TRỰC TUYẾN</h1>
     <ul>
         <li><a href="{{ url_for('product_list') }}">Tất cả</a></li>
@@ -16,5 +10,4 @@
         </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, session, jsonify
 from saleapp import app, util, login
 from saleapp.models import *
 from flask_login import login_user
@@ -61,7 +61,52 @@ def register():
 
     return render_template('register.html', err_msg=err_msg)
 
+@app.route('/api/cart', methods=['get', 'post'])
+def add_to_cart():
+    if 'cart' not in session:
+        session['cart'] = {}
+
+    cart = session['cart']
+
+    data = request.json
+    id = str(data.get('id'))
+    name = data.get('name')
+    price = data.get('price')
+
+    if id in cart:
+        cart[id]['quantity'] = cart[id]['quantity'] + 1
+    else:
+        cart[id] = {
+            "id": id,
+            "name": name,
+            "price": price,
+            "quantity": 1
+        }
+
+    session['cart'] = cart
+    quan, amount = util.cart_start(session['cart'])
+
+    return jsonify({
+        "total_quantity": quan,
+        "total_amount": amount
+    })
+
+@app.route('/payment', methods=['get', 'post'])
+def payment():
+    if request.method == 'POST':
+        if util.add_user(session.get('cart')):
+            del session['cart']
+
+            return jsonify({ 'message': 'Payment added!!!' })
+
+    quan, price = util.cart_start(session.get('cart'))
+
+    cart_info = {
+        'total_quantity': quan,
+        'total_amount': price
+    }
+
+    return render_template('payment.html', cart_info=cart_info)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
+    app.run(debug=True, port=2749)
